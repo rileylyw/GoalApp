@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
   const [goal, setGoal] = useState('')
@@ -10,7 +10,11 @@ export default function App() {
   }
 
   function addGoldHandler() {
-    setGoals(currentGoals => [...currentGoals, goal])
+    setGoals(currentGoals => [
+      ...currentGoals,
+      // turn data into an object
+      { text: goal, key: Math.random().toString() }
+    ])
   }
 
 
@@ -31,11 +35,19 @@ export default function App() {
       {/* list of goals */}
       <View style={styles.goalsContainer}>
         <Text style={styles.listOfGoals}>List of goals:</Text>
-        {goals.map((goal) => (
-          <View style={styles.goalItem} key={goal}>
-            <Text style={styles.goalText}>{goal}</Text>
-          </View>
-        ))}
+
+        <FlatList
+          data={goals}
+          renderItem={(item) => {
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{item.item.text}</Text>
+              </View>
+            )
+          }}
+          alwaysBounceVertical={false}
+        />
+
       </View>
     </View>
   );
