@@ -8,17 +8,28 @@ export default function App() {
    const [goals, setGoals] = useState([])
 
    function addGoalHandler(goal) {
-      setGoals(currentGoals => [
-         ...currentGoals,
-         // turn data into an object
-         { text: goal, key: Math.random().toString() }
-      ])
+      // TODO: warning tooltip for empty or repeated strings
+      // do not allow empty or repeated strings
+      if (goal!=="" && !goals.some((text) => text === goal.text)) {
+         console.log(goals)
+         setGoals(currentGoals => [
+            ...currentGoals,
+            // turn data into an object
+            { text: goal, id: Math.random().toString() }
+         ])
+      }
+   }
+
+   function deleteItemHandler(id) {
+      setGoals( currentGoals => {
+         return currentGoals.filter((goal) => goal.id !== id )
+      })
    }
 
    return (
       <View style={styles.appContainer}>
          {/* button to add goals */}
-         <GoalInput onAddGoal={addGoalHandler}/>
+         <GoalInput onAddGoal={addGoalHandler} />
 
          {/* list of goals */}
          <View style={styles.goalsContainer}>
@@ -27,7 +38,11 @@ export default function App() {
             <FlatList
                data={goals}
                renderItem={(item) => {
-                  return <GoalItem text={item.item.text} />
+                  return <GoalItem 
+                     text={item.item.text}
+                     id={item.item.id}
+                     onDeleteItem={deleteItemHandler}
+                  />
                }}
                alwaysBounceVertical={false}
             />

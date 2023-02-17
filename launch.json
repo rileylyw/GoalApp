@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Android",
+      "cwd": "${workspaceFolder}",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "url": "http://localhost:19000/debugger-ui/",
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
