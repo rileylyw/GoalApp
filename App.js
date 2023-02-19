@@ -5,12 +5,17 @@ import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
+   const [inputSpaceIsVisible, setInputSpaceVisible] = useState(false)
    const [goals, setGoals] = useState([])
+
+   function setInputSpaceVisibleHandler() {
+      setInputSpaceVisible(true)
+   }
 
    function addGoalHandler(goal) {
       // TODO: warning tooltip for empty or repeated strings
       // do not allow empty or repeated strings
-      if (goal!=="" && !goals.some((text) => text === goal.text)) {
+      if (goal !== "" && !goals.some((text) => text === goal.text)) {
          console.log(goals)
          setGoals(currentGoals => [
             ...currentGoals,
@@ -21,24 +26,28 @@ export default function App() {
    }
 
    function deleteItemHandler(id) {
-      setGoals( currentGoals => {
-         return currentGoals.filter((goal) => goal.id !== id )
+      setGoals(currentGoals => {
+         return currentGoals.filter((goal) => goal.id !== id)
       })
    }
 
    return (
       <View style={styles.appContainer}>
-         {/* button to add goals */}
-         <GoalInput onAddGoal={addGoalHandler} />
+         <Button
+            title='Start Adding Goals!'
+            color='#5e0acc'
+            onPress={setInputSpaceVisibleHandler}
+         />
+         <GoalInput isVisible={inputSpaceIsVisible} onAddGoal={addGoalHandler} />
 
          {/* list of goals */}
          <View style={styles.goalsContainer}>
-            <Text style={styles.listOfGoals}>List of goals:</Text>
+            {/* <Text style={styles.listOfGoals}>List of goals:</Text> */}
 
             <FlatList
                data={goals}
                renderItem={(item) => {
-                  return <GoalItem 
+                  return <GoalItem
                      text={item.item.text}
                      id={item.item.id}
                      onDeleteItem={deleteItemHandler}
