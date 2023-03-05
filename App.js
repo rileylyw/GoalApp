@@ -3,13 +3,19 @@ import { Button, FlatList, StyleSheet, TextInput, View, Text } from 'react-nativ
 
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
+import ButtonWithBoldText from './components/ButtonWithBoldText';
 
 export default function App() {
-   const [inputSpaceIsVisible, setInputSpaceVisible] = useState(false)
+   const [modalIsVisible, setModalIsVisible] = useState(false)
    const [goals, setGoals] = useState([])
 
-   function setInputSpaceVisibleHandler() {
-      setInputSpaceVisible(true)
+   function setAddGoalHandler() {
+      setModalIsVisible(true)
+   }
+
+   function endAddGoalHandler() {
+      setModalIsVisible(false)
    }
 
    function addGoalHandler(goal) {
@@ -23,6 +29,7 @@ export default function App() {
             { text: goal, id: Math.random().toString() }
          ])
       }
+      endAddGoalHandler()
    }
 
    function deleteItemHandler(id) {
@@ -32,32 +39,40 @@ export default function App() {
    }
 
    return (
-      <View style={styles.appContainer}>
-         <Button
-            title='Start Adding Goals!'
-            color='#5e0acc'
-            onPress={setInputSpaceVisibleHandler}
-         />
-         <GoalInput isVisible={inputSpaceIsVisible} onAddGoal={addGoalHandler} />
-
-         {/* list of goals */}
-         <View style={styles.goalsContainer}>
-            {/* <Text style={styles.listOfGoals}>List of goals:</Text> */}
-
-            <FlatList
-               data={goals}
-               renderItem={(item) => {
-                  return <GoalItem
-                     text={item.item.text}
-                     id={item.item.id}
-                     onDeleteItem={deleteItemHandler}
-                  />
-               }}
-               alwaysBounceVertical={false}
+      <>
+         <StatusBar style='light' />
+         <View style={styles.appContainer}>
+            <View style={styles.startAddingGoalsButtonView}>
+               <ButtonWithBoldText
+                  title={goals.length > 0 ? 'Add More Goals!' : 'Start Adding Goals!'}
+                  onPress={setAddGoalHandler}
+                  fontSize={'18'}
+                  style={{ width: '80%' }}
+               />
+               <Text>Tap goal to delete</Text>
+            </View>
+            <GoalInput
+               isVisible={modalIsVisible}
+               onAddGoal={addGoalHandler}
+               onCancel={endAddGoalHandler}
             />
 
+            <View style={styles.goalsContainer}>
+               <FlatList
+                  data={goals}
+                  renderItem={(item) => {
+                     return <GoalItem
+                        text={item.item.text}
+                        id={item.item.id}
+                        onDeleteItem={deleteItemHandler}
+                     />
+                  }}
+                  alwaysBounceVertical={false}
+               />
+
+            </View>
          </View>
-      </View>
+      </>
    );
 }
 
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
    appContainer: {
       flex: 1,
       paddingTop: 50,
-      paddingHorizontal: 16
+      paddingHorizontal: 16,
    },
    goalsContainer: {
       flex: 5,
@@ -76,5 +91,12 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: 15
    },
-
+   startAddingGoalsButtonView: {
+      alignItems: 'center',
+      paddingTop: 60,
+      paddingBottom: 15,
+   },
 });
+
+
+// TODO move finished item to the bottom && grey

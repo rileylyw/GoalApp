@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "react-example",
-    "slug": "react-example",
+    "name": "goal-app",
+    "slug": "goal-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "backgroundColor": "#E9C46A",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

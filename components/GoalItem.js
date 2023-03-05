@@ -22,17 +22,16 @@ const styles = StyleSheet.create({
    goalItem: {
       margin: 8,
       borderRadius: 6,
-      borderColor: '#5e0acc',
-      backgroundColor: '#5e0acc',
+      backgroundColor: '#E76F51',
    },
    pressedItem: {
       borderRadius: 6,
       opacity: 0.5,
-      backgroundColor: '#210644'
+      backgroundColor: '#2i0644'
    },
    goalText: {
-      color: '#ffffff',
-      paddingHorizontal: 15,
+      color: '#264653',
+      paddingHorizontal: 20,
       fontSize: 16,
       fontWeight: 'bold',
       padding: 8,
